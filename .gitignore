@@ -1,0 +1,16 @@
+
+.DS_Store
+target/
+.idea
+.project
+.settings
+.classpath
+.vscode
+*.iml
+build/
+bin/
+.gradle
+gradle
+gradlew
+gradlew.*
+reports/*
