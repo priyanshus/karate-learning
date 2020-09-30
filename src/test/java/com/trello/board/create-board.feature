@@ -4,7 +4,13 @@ Feature: Create Trello board
     Given url trelloUrl
     And param key = appKey
     And param token = appToken
-    And def deleteBoard = read('common.feature')
+    * def deleteBoard =
+    """
+    function(payload) {
+      karate.log('Delete Board');
+      karate.call('../board/common.feature@scenario=deleteboard', payload);
+    }
+    """
 
   Scenario: Create Trello board returns 200 and non-null id
     Given path 'boards'

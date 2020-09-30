@@ -12,7 +12,7 @@ Feature: Add card to board
     * def boardId =  addBoardResult.response.id
     * def payload = {id: '#(boardId)'}
     * print 'Get lists on board'
-    * def getListsResult = callonce getListsOnBoard {id: '#(boardId)'}
+    * def getListsResult = callonce getListsOnBoard payload
     * configure afterFeature =
     """
     function() {
@@ -37,7 +37,7 @@ Feature: Add card to board
     Then status 200
     And match $.id == '#notnull'
 
-  Scenario: Move card
+  Scenario: Move card from todo list to doing list returns 200 and non null id
     * def todoList = getListsResult.response[0].id
     * def doingList = getListsResult.response[1].id
     Given path 'cards'
@@ -45,7 +45,7 @@ Feature: Add card to board
     When method post
     Then status 200
     And match $.id == '#notnull'
-    And set cardId = $.id
+    And def cardId = $.id
 
     Given path 'cards', cardId
     And param key = appKey
@@ -56,8 +56,25 @@ Feature: Add card to board
     And match $.id == '#notnull'
     And match $.idList == '#notnull'
 
+  Scenario: Create attachment on a card returns 200 and attachment url
+    * def todoList = getListsResult.response[0].id
+    Given path 'cards'
+    And request {'idBoard': '#(boardId)', 'idList': '#(todoList)', 'name':'some card 1'}
+    When method post
+    Then status 200
+    And match $.id == '#notnull'
+    And def cardId = $.id
 
-
+    Given path 'cards', cardId, 'attachments'
+    And param key = appKey
+    And param token = appToken
+    And param name = 'my-attachment'
+    And multipart field file = read('attachment.png')
+    When method post
+    Then status 200
+    And match $.id == '#notnull'
+    And match $.name == 'my-attachment'
+    And match $.previews[0].url == '#notnull'
 
 
 
