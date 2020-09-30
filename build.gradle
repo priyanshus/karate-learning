@@ -25,14 +25,17 @@ dependencies {
     testCompile group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.5.0'
     testCompile 'com.intuit.karate:karate-junit5:0.9.6'
     testCompile 'com.intuit.karate:karate-apache:0.9.6'
+    testCompile 'net.masterthought:cucumber-reporting:5.3.1'
 }
 
 test {
     useJUnitPlatform()
+    testLogging.showStandardStreams = true
     systemProperty "app.token", System.properties.getProperty("app.token")
     systemProperty "app.key", System.properties.getProperty("app.key")
 
     testLogging {
         events "passed", "skipped", "failed"
     }
+    include '**/*Runner*'
 }
