@@ -2,8 +2,8 @@ function fn() {
     var config = {
         url: 'https://reqres.in/api',
         trelloUrl: 'https://api.trello.com/1/',
-        appKey: karate.properties['app.key'] || 'e31eb538579208149b244d84ef354fd2',
-        appToken: karate.properties['app.token'] || 'ea8853653956c97eabb5ef6838319732e7bfc2184ee23ee009699f4593d66c57'
+        appKey: karate.properties['app.key'] || 'foo',
+        appToken: karate.properties['app.token'] || 'bar'
     };
 
     karate.configure('logPrettyResponse', true);
